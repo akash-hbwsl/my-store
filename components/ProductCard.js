@@ -3,26 +3,34 @@ import Image from "next/image";
 
 export default function ProductCard({ product }) {
   return (
-    <div className="bg-gray-100 shadow-md rounded-lg p-6 m-4 transition-transform hover:scale-105">
-      <h3 className="text-xl font-semibold mb-2 text-gray-900">
+    <div className="bg-white shadow-lg rounded-2xl p-8 flex flex-col h-full border border-gray-100 hover:shadow-xl transition-all">
+      <div className="flex-1 flex flex-col items-center justify-center mb-4">
+        <Image
+          src={product.image}
+          width={220}
+          height={220}
+          alt={product.title}
+          className="w-full h-56 object-contain rounded-xl bg-gray-50 p-4 border"
+          unoptimized={product.isCustom}
+        />
+      </div>
+      <h3 className="text-xl font-semibold mb-2 text-gray-900 text-center line-clamp-2 min-h-[56px]">
         {product.title}
       </h3>
-      <Image
-        src={product.image}
-        width={200}
-        height={200}
-        alt={product.title}
-        className="w-full h-48 object-contain rounded-md mb-4 bg-white p-2"
-        unoptimized={product.isCustom}
-      />
-      <p className="text-lg font-bold text-green-600 mb-2">$ {product.price}</p>
-      <p className="text-gray-600 mb-4 line-clamp-3">{product.description}</p>
-      <Link
-        href={`/products/${product.id}`}
-        className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
-      >
-        View Details
-      </Link>
+      <p className="text-base text-gray-600 mb-4 text-center line-clamp-2 min-h-[44px]">
+        {product.description}
+      </p>
+      <div className="flex items-center justify-between mt-auto">
+        <span className="text-xl font-bold text-green-600">
+          ${product.price}
+        </span>
+        <Link
+          href={`/products/${product.id}`}
+          className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow"
+        >
+          View Details
+        </Link>
+      </div>
     </div>
   );
 }

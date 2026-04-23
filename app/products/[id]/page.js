@@ -36,32 +36,34 @@ export default async function ProductDetails({ params }) {
   }
 
   return (
-    <div className="py-8 w-full">
-      <div className="container mx-auto px-4 max-w-4xl">
+    <div className="py-10 w-full bg-gray-50 min-h-[60vh]">
+      <div className="max-w-3xl mx-auto px-4">
         <Link
           href="/products"
-          className="inline-block mb-6 text-blue-600 hover:text-blue-800 font-medium"
+          className="inline-flex items-center gap-2 mb-6 text-blue-600 hover:text-blue-800 font-medium transition"
         >
-          &larr; Back to Products
+          <span className="text-xl">&larr;</span> Back to Products
         </Link>
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-3xl font-bold mb-6 text-gray-900">
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-6 text-gray-900 tracking-tight line-clamp-1">
             {product.title}
           </h1>
           <div className="flex flex-col md:flex-row gap-8">
-            <Image
-              src={product.image}
-              width={400}
-              height={400}
-              alt={product.title}
-              className="w-full md:w-1/2 h-96 object-contain rounded-lg"
-              unoptimized={product.isCustom}
-            />
+            <div className="flex-1 flex items-center justify-center">
+              <Image
+                src={product.image}
+                width={350}
+                height={350}
+                alt={product.title}
+                className="w-full max-w-xs h-80 object-contain rounded-lg border bg-white p-4"
+                unoptimized={product.isCustom}
+              />
+            </div>
             <div className="md:w-1/2 flex flex-col justify-center">
-              <p className="text-3xl font-bold text-green-600 mb-4">
+              <p className="text-2xl font-bold text-green-600 mb-4">
                 ${product.price}
               </p>
-              <p className="text-gray-600 leading-relaxed text-lg">
+              <p className="text-gray-600 leading-relaxed text-lg mb-2 line-clamp-3">
                 {product.description}
               </p>
             </div>

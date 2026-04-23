@@ -11,9 +11,9 @@ export default async function ProductPage() {
   const localProducts = await localRes.json();
   const products = [...apiProducts, ...localProducts];
   return (
-    <div className="py-8 w-full">
-      <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-900">
+    <div className="py-10 w-full bg-gray-50 min-h-[60vh]">
+      <div className="max-w-7xl mx-auto px-4">
+        <h1 className="text-4xl font-extrabold text-center mb-10 text-gray-900 tracking-tight">
           Products
         </h1>
         <ProductList products={products} />

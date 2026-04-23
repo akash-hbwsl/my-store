@@ -47,7 +47,7 @@ export default function AddProduct() {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-50 py-8 min-h-[90vh]">
+    <div className="flex items-center justify-center py-8 w-full">
       <div className="w-full max-w-xl bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
         <h1 className="text-3xl font-bold text-blue-700 mb-6 text-center">
           Add Product

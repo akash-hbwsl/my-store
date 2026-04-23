@@ -13,6 +13,7 @@ export default function ProductCard({ product }) {
         height={200}
         alt={product.title}
         className="w-full h-48 object-contain rounded-md mb-4 bg-white p-2"
+        unoptimized={product.isCustom}
       />
       <p className="text-lg font-bold text-green-600 mb-2">$ {product.price}</p>
       <p className="text-gray-600 mb-4 line-clamp-3">{product.description}</p>

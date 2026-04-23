@@ -3,7 +3,12 @@ import Link from "next/link";
 
 export async function generateStaticParams() {
   const res = await fetch("https://fakestoreapi.com/products");
-  const products = await res.json();
+  const apiProducts = await res.json();
+
+  const localRes = await fetch("http://localhost:3000/api/products");
+  const localProducts = await localRes.json();
+
+  const products = [...apiProducts, ...localProducts];
 
   return products.map((product) => ({
     id: product.id.toString(),
@@ -12,12 +17,26 @@ export async function generateStaticParams() {
 
 export default async function ProductDetails({ params }) {
   const { id } = await params;
+  let product = null;
+  try {
+    const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
+      cache: "no-store",
+    });
+    const data = await res.json();
+    if (data) {
+      product = data;
+    }
+  } catch (err) {}
 
-  const res = await fetch(`https://fakestoreapi.com/products/${id}`);
-  const product = await res.json();
+  if (!product) {
+    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+      cache: "no-store",
+    });
+    product = await res.json();
+  }
 
   return (
-    <div className="bg-gray-50 py-8">
+    <div className="py-8 w-full">
       <div className="container mx-auto px-4 max-w-4xl">
         <Link
           href="/products"
@@ -36,6 +55,7 @@ export default async function ProductDetails({ params }) {
               height={400}
               alt={product.title}
               className="w-full md:w-1/2 h-96 object-contain rounded-lg"
+              unoptimized={product.isCustom}
             />
             <div className="md:w-1/2 flex flex-col justify-center">
               <p className="text-3xl font-bold text-green-600 mb-4">

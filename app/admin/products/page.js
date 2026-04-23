@@ -1,15 +1,11 @@
 import ProductCard from "@/components/ProductCard";
 
 export default async function ProductPage() {
-  const apiRes = await fetch("https://fakestoreapi.com/products", {
+  const res = await fetch("http://localhost:3000/api/products", {
     cache: "no-store",
   });
-  const apiProducts = await apiRes.json();
-  const localRes = await fetch("http://localhost:3000/api/products", {
-    cache: "no-store",
-  });
-  const localProducts = await localRes.json();
-  const products = [...apiProducts, ...localProducts];
+
+  const products = await res.json();
   return (
     <div className="py-8 w-full">
       <div className="container mx-auto px-4">

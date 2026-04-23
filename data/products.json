@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "id": "1776926169399",
+    "title": "Polo Shirt",
+    "description": "Summer Wear",
+    "price": "23",
+    "category": "Men's Wear",
+    "image": "https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/K90240s.jpg?im=Resize,width=750",
+    "isCustom": true
+  }
+]

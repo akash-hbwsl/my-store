@@ -13,6 +13,7 @@ export async function POST(req) {
     const newProduct = {
       id: Date.now().toString(),
       ...body,
+      isCustom: true,
     };
 
     products.push(newProduct);

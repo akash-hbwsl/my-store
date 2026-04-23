@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div className="bg-gray-50 flex items-center justify-center py-16">
+    <div className="flex items-center justify-center py-16 w-full">
       <div className="text-center">
         <h1 className="text-5xl font-bold text-gray-900 mb-4">
           Welcome to Akash Product Store

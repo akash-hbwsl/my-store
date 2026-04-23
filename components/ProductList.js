@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRecent } from "@/context/RecentContext";
 import {
   MagnifyingGlassIcon,
   ChevronDownIcon,
@@ -9,6 +10,7 @@ import ProductCard from "./ProductCard";
 
 export default function ProductList({ products }) {
   const [search, setSearch] = useState("");
+  const { recent } = useRecent();
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const categories = ["All", ...new Set(products.map((p) => p.category))];
@@ -27,8 +29,8 @@ export default function ProductList({ products }) {
   return (
     <div>
       <div className="flex flex-col md:flex-row gap-4 mb-8">
-        <div className="relative flex-1">
-          <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <div className="relative flex-1 flex items-center">
+          <span className="absolute left-3 flex items-center pointer-events-none h-full">
             <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
           </span>
           <input
@@ -37,6 +39,7 @@ export default function ProductList({ products }) {
             className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition placeholder-gray-400 text-gray-900 bg-white"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            style={{ height: "48px" }}
           />
         </div>
         <div className="relative w-full md:w-64">
@@ -51,6 +54,7 @@ export default function ProductList({ products }) {
               </option>
             ))}
           </select>
+
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <ChevronDownIcon className="h-5 w-5 text-gray-400" />
           </span>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import ProductDetailsClient from "@/components/ProductDetailsClient";
 
 export async function generateStaticParams() {
   const res = await fetch("https://fakestoreapi.com/products");
@@ -19,9 +20,7 @@ export default async function ProductDetails({ params }) {
   const { id } = await params;
   let product = null;
   try {
-    const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
-      cache: "no-store",
-    });
+    const res = await fetch(`https://fakestoreapi.com/products/${id}`);
     const data = await res.json();
     if (data) {
       product = data;
@@ -29,9 +28,7 @@ export default async function ProductDetails({ params }) {
   } catch (err) {}
 
   if (!product) {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
-      cache: "no-store",
-    });
+    const res = await fetch(`http://localhost:3000/api/products/${id}`);
     product = await res.json();
   }
 
@@ -45,9 +42,6 @@ export default async function ProductDetails({ params }) {
           <span className="text-xl">&larr;</span> Back to Products
         </Link>
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-6 text-gray-900 tracking-tight line-clamp-1">
-            {product.title}
-          </h1>
           <div className="flex flex-col md:flex-row gap-8">
             <div className="flex-1 flex items-center justify-center">
               <Image
@@ -59,13 +53,9 @@ export default async function ProductDetails({ params }) {
                 unoptimized={product.isCustom}
               />
             </div>
+
             <div className="md:w-1/2 flex flex-col justify-center">
-              <p className="text-2xl font-bold text-green-600 mb-4">
-                ${product.price}
-              </p>
-              <p className="text-gray-600 leading-relaxed text-lg mb-2 line-clamp-3">
-                {product.description}
-              </p>
+              <ProductDetailsClient product={product} />
             </div>
           </div>
         </div>

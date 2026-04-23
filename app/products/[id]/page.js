@@ -1,6 +1,35 @@
 import Image from "next/image";
 import Link from "next/link";
 import ProductDetailsClient from "@/components/ProductDetailsClient";
+import { notFound } from "next/navigation";
+
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  let product = null;
+  try {
+    const res = await fetch(`https://fakestoreapi.com/products/${id}`);
+    const data = await res.json();
+    if (data && data.id) {
+      product = data;
+    }
+  } catch (err) {}
+
+  if (!product) {
+    const res = await fetch(`http://localhost:3000/api/products/${id}`);
+    const data = await res.json();
+    if (data && data.id) {
+      product = data;
+    }
+  }
+
+  if (!product) {
+    notFound();
+  }
+  return {
+    title: product.title,
+    description: product.description,
+  };
+}
 
 export async function generateStaticParams() {
   const res = await fetch("https://fakestoreapi.com/products");
@@ -22,16 +51,22 @@ export default async function ProductDetails({ params }) {
   try {
     const res = await fetch(`https://fakestoreapi.com/products/${id}`);
     const data = await res.json();
-    if (data) {
+    if (data && data.id) {
       product = data;
     }
   } catch (err) {}
 
   if (!product) {
     const res = await fetch(`http://localhost:3000/api/products/${id}`);
-    product = await res.json();
+    const data = await res.json();
+    if (data && data.id) {
+      product = data;
+    }
   }
 
+  if (!product) {
+    notFound();
+  }
   return (
     <div className="py-10 w-full bg-gray-50 min-h-[60vh]">
       <div className="max-w-3xl mx-auto px-4">

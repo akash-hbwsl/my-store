@@ -1,5 +1,9 @@
 import ProductList from "@/components/ProductList";
 
+export const metadata = {
+  title: "Products - My Product Store",
+};
+
 export default async function ProductPage() {
   const apiRes = await fetch("https://fakestoreapi.com/products", {
     cache: "no-store",

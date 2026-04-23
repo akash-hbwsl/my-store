@@ -1,5 +1,9 @@
 import ProductCard from "@/components/ProductCard";
 
+export const metadata = {
+  title: "Admin Products - My Product Store",
+};
+
 export default async function ProductPage() {
   const res = await fetch("http://localhost:3000/api/products", {
     cache: "no-store",

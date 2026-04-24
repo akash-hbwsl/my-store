@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { RecentProvider } from "@/context/RecentContext";
 import { Toaster } from "react-hot-toast";
+import Providers from "./provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,10 +29,12 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-screen flex flex-col bg-gray-50">
         <RecentProvider>
-          <Header />
-          <main className="flex-1 w-full bg-white">{children}</main>
-          <Footer />
-          <Toaster position="top-right" />
+          <Providers>
+            <Header />
+            <main className="flex-1 w-full bg-white">{children}</main>
+            <Footer />
+            <Toaster position="top-right" />
+          </Providers>
         </RecentProvider>
       </body>
     </html>

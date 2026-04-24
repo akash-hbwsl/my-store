@@ -3,12 +3,15 @@
 import Link from "next/link";
 import { useRecent } from "@/context/RecentContext";
 import { useSession, signOut } from "next-auth/react";
+import { useCart } from "@/context/CartContext";
 
 export default function Header() {
   const { recent } = useRecent();
   const { data: session } = useSession();
+  const { getCartItemCount } = useCart();
 
   const isAdmin = session?.user?.role === "admin";
+  const cartCount = getCartItemCount();
 
   return (
     <header className="bg-white shadow-lg border-b border-gray-200">
@@ -30,6 +33,19 @@ export default function Header() {
             className="text-gray-700 hover:text-blue-600 font-medium"
           >
             Products
+          </Link>
+
+          <Link
+            href="/cart"
+            className="relative flex items-center gap-2 px-3 py-1 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 transition shadow-sm"
+          >
+            <span className="text-xl">🛒</span>
+            <span className="text-sm font-medium">Cart</span>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full shadow">
+                {cartCount}
+              </span>
+            )}
           </Link>
 
           {isAdmin && (
@@ -57,14 +73,18 @@ export default function Header() {
             </>
           )}
 
-          <button className="relative flex items-center gap-2 px-3 py-1 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 transition shadow-sm">
+          <Link
+            href="/recently-viewed"
+            className="relative flex items-center gap-2 px-3 py-1 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 transition shadow-sm"
+          >
             <span className="text-xl">👁️</span>
+            <span className="text-sm font-medium">Recent</span>
             {recent.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full shadow">
                 {recent.length}
               </span>
             )}
-          </button>
+          </Link>
 
           {!session ? (
             <Link

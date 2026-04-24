@@ -1,63 +1,60 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const handler = NextAuth({
+// ✅ export this
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {},
-
       async authorize(credentials) {
-        const { email, password } = credentials;
-
-        if (email === "admin@test.com" && password === "admin123") {
-          return {
-            id: "1",
-            name: "Admin",
-            email,
+        const users = [
+          {
+            email: "admin@test.com",
+            password: "admin123",
             role: "admin",
-          };
-        }
-
-        if (email && password) {
-          return {
-            id: "2",
-            name: "User",
-            email,
+          },
+          {
+            email: "user@test.com",
+            password: "user123",
             role: "user",
-          };
-        }
+          },
+        ];
 
-        return null;
+        const user = users.find(
+          (u) =>
+            u.email === credentials.email &&
+            u.password === credentials.password,
+        );
+
+        if (!user) return null;
+
+        return {
+          id: "1",
+          name: user.role === "admin" ? "Admin" : "User",
+          email: user.email,
+          role: user.role,
+        };
       },
     }),
   ],
 
-  session: {
-    strategy: "jwt",
-  },
+  session: { strategy: "jwt" },
 
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.role = user.role;
-        token.name = user.name;
-      }
+      if (user) token.role = user.role;
       return token;
     },
-
     async session({ session, token }) {
       session.user.role = token.role;
-      session.user.name = token.name;
       return session;
     },
   },
 
-  pages: {
-    signIn: "/login",
-  },
-
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

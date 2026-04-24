@@ -21,9 +21,22 @@ export default function ProductCard({ product }) {
         {product.description}
       </p>
       <div className="flex items-center justify-between mt-auto">
-        <span className="text-xl font-bold text-green-600">
-          ${product.price}
-        </span>
+        <div>
+          {product.discount > 0 ? (
+            <div className="flex flex-col items-start">
+              <span className="text-xl font-bold text-green-600">
+                ${(product.price * (1 - product.discount / 100)).toFixed(2)}
+              </span>
+              <span className="text-sm text-gray-400 line-through">
+                ${product.price}
+              </span>
+            </div>
+          ) : (
+            <span className="text-xl font-bold text-green-600">
+              ${product.price}
+            </span>
+          )}
+        </div>
         <Link
           href={`/products/${product._id}`}
           className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow"

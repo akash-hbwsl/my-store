@@ -34,7 +34,7 @@ export default function ProductList({ products }) {
           <input
             type="text"
             placeholder="Search products..."
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition placeholder-gray-400 text-gray-900 bg-white"
+            className="input-base pl-10 pr-4 py-3 shadow-sm"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{ height: "48px" }}
@@ -42,7 +42,7 @@ export default function ProductList({ products }) {
         </div>
         <div className="relative w-full md:w-64">
           <select
-            className="w-full appearance-none pl-4 pr-10 py-3 rounded-xl border border-gray-200 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition text-gray-900 bg-white cursor-pointer"
+            className="input-base w-full cursor-pointer appearance-none pl-4 pr-10 py-3 shadow-sm"
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
@@ -59,7 +59,7 @@ export default function ProductList({ products }) {
         </div>
       </div>
       {filteredProducts.length === 0 ? (
-        <p className="text-center text-gray-500">No products found</p>
+        <div className="card-surface p-10 text-center text-gray-500">No products found</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (

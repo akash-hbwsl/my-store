@@ -145,9 +145,11 @@ export default function AdminOrdersPage() {
 
   if (status === "loading" || loading) {
     return (
-      <div className="container mx-auto px-6 py-10 text-center text-gray-900">
+      <div className="page-shell">
+        <div className="page-container py-10 text-center text-gray-900">
         <div className="animate-spin h-10 w-10 border-b-2 border-blue-600 mx-auto mb-4" />
         Loading orders...
+        </div>
       </div>
     );
   }
@@ -155,15 +157,16 @@ export default function AdminOrdersPage() {
   if (!session || session.user.role !== "admin") return null;
 
   return (
-    <div className="container mx-auto px-6 py-8 text-gray-900">
+    <div className="page-shell">
+      <div className="page-container text-gray-900">
       {/* HEADER */}
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Orders Management</h1>
+        <h1 className="section-title">Orders Management</h1>
 
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          className="border px-3 py-2 rounded-md text-gray-900"
+          className="input-base w-auto"
         >
           <option value="all">All</option>
           <option value="pending">Pending</option>
@@ -187,7 +190,7 @@ export default function AdminOrdersPage() {
           {filteredOrders.map((order) => (
             <div
               key={order.orderId}
-              className="bg-white border rounded-lg shadow-md p-6"
+              className="card-surface p-6"
             >
               {/* TOP ROW */}
               <div className="flex justify-between items-start mb-4">
@@ -234,7 +237,7 @@ export default function AdminOrdersPage() {
               </div>
 
               {/* TOTAL */}
-              <div className="bg-gray-50 p-3 rounded mb-4 text-gray-900">
+              <div className="mb-4 rounded-lg bg-gray-50 p-3 text-gray-900">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
                   <span>${order.subtotal.toFixed(2)}</span>
@@ -260,7 +263,7 @@ export default function AdminOrdersPage() {
                   onChange={(e) =>
                     updateOrderStatus(order.orderId, e.target.value)
                   }
-                  className="w-full mt-2 border px-3 py-2 rounded text-gray-900"
+                  className="input-base mt-2"
                 >
                   <option value="pending">Pending</option>
                   <option value="processing">Processing</option>
@@ -280,7 +283,7 @@ export default function AdminOrdersPage() {
         </div>
       )}
 
-      <div className="mt-10 rounded-xl border bg-white p-6 shadow-sm">
+      <div className="card-surface mt-10 p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-1">
           Quick Discount Settings
         </h2>
@@ -299,7 +302,7 @@ export default function AdminOrdersPage() {
             <select
               value={selectedDiscountCategory}
               onChange={(e) => setSelectedDiscountCategory(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900"
+              className="input-base"
             >
               <option value="all">All Categories</option>
               {categories.map((category) => (
@@ -321,7 +324,7 @@ export default function AdminOrdersPage() {
                 max="100"
                 value={discountPercentage}
                 onChange={(e) => setDiscountPercentage(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-8 text-gray-900"
+                className="input-base pr-8"
                 placeholder="Enter percentage"
                 required
               />
@@ -332,11 +335,12 @@ export default function AdminOrdersPage() {
           <button
             type="submit"
             disabled={applyingDiscount}
-            className="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white hover:bg-blue-700 disabled:bg-blue-400"
+            className="btn-primary px-5 py-2.5 font-semibold disabled:bg-blue-400"
           >
             {applyingDiscount ? "Saving..." : "Save Discount"}
           </button>
         </form>
+      </div>
       </div>
     </div>
   );

@@ -11,11 +11,12 @@ export default async function ProductPage() {
 
   const products = await res.json();
   return (
-    <div className="py-8 w-full">
-      <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-900">
-          Products
-        </h1>
+    <div className="page-shell">
+      <div className="page-container">
+        <div className="mb-8 text-center">
+          <h1 className="section-title">Manage Products</h1>
+          <p className="section-subtitle">Review and maintain your active catalog.</p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((product) => (
             <ProductCard key={product._id} product={product} />

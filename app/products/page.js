@@ -12,11 +12,12 @@ export default async function ProductPage() {
   const products = await res.json();
 
   return (
-    <div className="py-10 w-full bg-gray-50 min-h-[60vh]">
-      <div className="max-w-7xl mx-auto px-4">
-        <h1 className="text-4xl font-extrabold text-center mb-10 text-gray-900 tracking-tight">
-          Products
-        </h1>
+    <div className="page-shell">
+      <div className="page-container">
+        <div className="mb-10 text-center">
+          <h1 className="section-title">Products</h1>
+          <p className="section-subtitle">Discover curated picks and current deals.</p>
+        </div>
         <ProductList products={products} />
       </div>
     </div>

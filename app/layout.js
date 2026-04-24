@@ -27,11 +27,11 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-screen flex flex-col bg-gray-50">
+      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
         <RecentProvider>
           <Providers>
             <Header />
-            <main className="flex-1 w-full bg-white">{children}</main>
+            <main className="flex-1 w-full bg-slate-50">{children}</main>
             <Footer />
             <Toaster position="top-right" />
           </Providers>

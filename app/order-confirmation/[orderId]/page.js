@@ -18,17 +18,20 @@ export default function OrderConfirmationPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-6 py-12">
+      <div className="page-shell">
+        <div className="page-container py-12">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading order details...</p>
+        </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-6 py-12">
+    <div className="page-shell">
+      <div className="page-container py-12">
       <div className="max-w-2xl mx-auto text-center">
         <div className="text-6xl mb-6">✅</div>
 
@@ -41,7 +44,7 @@ export default function OrderConfirmationPage() {
           it shortly.
         </p>
 
-        <div className="bg-gray-50 rounded-lg p-6 mb-8">
+        <div className="card-surface bg-gray-50 p-6 mb-8">
           <h2 className="text-lg font-semibold text-gray-900 mb-2">Order ID</h2>
           <p className="text-2xl font-mono text-blue-600">{orderId}</p>
         </div>
@@ -55,19 +58,20 @@ export default function OrderConfirmationPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/products"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+              className="btn-primary"
             >
               Continue Shopping
             </Link>
 
             <Link
               href="/"
-              className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+              className="btn-secondary"
             >
               Back to Home
             </Link>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

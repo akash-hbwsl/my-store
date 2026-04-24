@@ -120,14 +120,15 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="container mx-auto px-6 py-8 text-gray-900">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
+    <div className="page-shell">
+      <div className="page-container text-gray-900">
+      <h1 className="section-title mb-8">Checkout</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* FORM */}
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Contact */}
-          <div className="bg-white p-6 rounded-lg shadow-md border">
+          <div className="card-surface p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Contact Information
             </h2>
@@ -137,7 +138,7 @@ export default function CheckoutPage() {
               name="email"
               value={formData.email}
               disabled
-              className="w-full px-3 py-2 mb-4 border rounded-md bg-gray-100 text-gray-900"
+              className="input-base mb-4 bg-gray-100"
             />
 
             <div className="grid grid-cols-2 gap-4">
@@ -146,20 +147,20 @@ export default function CheckoutPage() {
                 placeholder="First Name"
                 required
                 onChange={handleInputChange}
-                className="border p-2 rounded text-gray-900"
+                className="input-base"
               />
               <input
                 name="lastName"
                 placeholder="Last Name"
                 required
                 onChange={handleInputChange}
-                className="border p-2 rounded text-gray-900"
+                className="input-base"
               />
             </div>
           </div>
 
           {/* Address */}
-          <div className="bg-white p-6 rounded-lg shadow-md border">
+          <div className="card-surface p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Shipping Address
             </h2>
@@ -169,33 +170,33 @@ export default function CheckoutPage() {
               placeholder="Address"
               required
               onChange={handleInputChange}
-              className="w-full border p-2 mb-3 rounded text-gray-900"
+              className="input-base mb-3"
             />
 
             <div className="grid grid-cols-3 gap-3">
               <input
                 name="city"
                 placeholder="City"
-                className="border p-2 rounded text-gray-900"
+                className="input-base"
                 onChange={handleInputChange}
               />
               <input
                 name="state"
                 placeholder="State"
-                className="border p-2 rounded text-gray-900"
+                className="input-base"
                 onChange={handleInputChange}
               />
               <input
                 name="zipCode"
                 placeholder="ZIP"
-                className="border p-2 rounded text-gray-900"
+                className="input-base"
                 onChange={handleInputChange}
               />
             </div>
           </div>
 
           {/* Payment */}
-          <div className="bg-white p-6 rounded-lg shadow-md border">
+          <div className="card-surface p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Payment
             </h2>
@@ -216,7 +217,7 @@ export default function CheckoutPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold"
+            className="btn-primary w-full py-3"
           >
             {isLoading
               ? "Placing Order..."
@@ -225,7 +226,7 @@ export default function CheckoutPage() {
         </form>
 
         {/* SUMMARY */}
-        <div className="bg-white p-6 rounded-lg shadow-md border h-fit sticky top-4">
+        <div className="card-surface h-fit sticky top-20 p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">
             Order Summary
           </h2>
@@ -279,6 +280,7 @@ export default function CheckoutPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

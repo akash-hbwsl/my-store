@@ -30,7 +30,8 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="container mx-auto px-6 py-12">
+      <div className="page-shell">
+        <div className="page-container py-12">
         <div className="text-center">
           <div className="text-6xl mb-4">🛒</div>
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
@@ -41,17 +42,19 @@ export default function CartPage() {
           </p>
           <Link
             href="/products"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+            className="btn-primary"
           >
             Browse Products
           </Link>
+        </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-6 py-8 text-gray-900">
+    <div className="page-shell">
+      <div className="page-container text-gray-900">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Cart Items */}
         <div className="flex-1">
@@ -75,10 +78,7 @@ export default function CartPage() {
               const itemTotal = discountedPrice * item.quantity;
 
               return (
-                <div
-                  key={item._id}
-                  className="bg-white rounded-lg shadow-md p-6 border"
-                >
+                <div key={item._id} className="card-surface p-6">
                   <div className="flex flex-col md:flex-row gap-4">
                     {/* Image */}
                     <div className="flex-shrink-0">
@@ -185,7 +185,7 @@ export default function CartPage() {
 
         {/* Summary */}
         <div className="lg:w-96">
-          <div className="bg-white rounded-lg shadow-md p-6 border sticky top-4">
+          <div className="card-surface sticky top-20 p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Order Summary
             </h2>
@@ -247,6 +247,7 @@ export default function CartPage() {
             </Link>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

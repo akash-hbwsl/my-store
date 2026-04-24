@@ -43,8 +43,8 @@ export default async function ProductDetails({ params }) {
   }
 
   return (
-    <div className="py-10 w-full bg-gradient-to-b from-gray-50 to-white min-h-[60vh]">
-      <div className="max-w-5xl mx-auto px-4">
+    <div className="page-shell">
+      <div className="page-container max-w-5xl">
         <Link
           href="/products"
           className="inline-flex items-center gap-2 mb-6 text-blue-600 hover:text-blue-800 font-medium transition"
@@ -52,7 +52,7 @@ export default async function ProductDetails({ params }) {
           <span className="text-xl">&larr;</span> Back to Products
         </Link>
 
-        <div className="bg-white rounded-3xl shadow-xl p-6 md:p-8 border border-gray-100">
+        <div className="card-surface rounded-3xl p-6 md:p-8 shadow-xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
             <div className="rounded-2xl border border-gray-100 bg-gradient-to-b from-gray-50 to-white p-6 flex items-center justify-center">
               <Image

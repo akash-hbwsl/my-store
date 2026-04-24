@@ -133,12 +133,13 @@ export default function AdminDiscountsPage() {
   }
 
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="page-shell">
+      <div className="page-container">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Discount Form */}
         <div className="flex-1">
-          <div className="bg-white rounded-lg shadow-md p-6 border">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <div className="card-surface p-6">
+            <h2 className="section-title text-2xl mb-6">
               Add Discount
             </h2>
 
@@ -216,7 +217,7 @@ export default function AdminDiscountsPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-3">
                     Select Products
                   </label>
-                  <div className="max-h-96 overflow-y-auto border border-gray-300 rounded-md p-3 space-y-2">
+                  <div className="max-h-96 overflow-y-auto rounded-md border border-gray-300 p-3 space-y-2">
                     {products.length === 0 ? (
                       <p className="text-gray-500 text-sm">
                         No products available
@@ -260,7 +261,7 @@ export default function AdminDiscountsPage() {
                     required
                     value={discountValue}
                     onChange={(e) => setDiscountValue(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="input-base pr-8"
                     placeholder="Enter discount percentage"
                   />
                   <span className="absolute right-3 top-2.5 text-gray-500 font-medium">
@@ -273,7 +274,7 @@ export default function AdminDiscountsPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+                className="btn-primary w-full py-3 px-4 disabled:bg-blue-400"
               >
                 {isLoading ? "Applying Discount..." : "Apply Discount"}
               </button>
@@ -283,7 +284,7 @@ export default function AdminDiscountsPage() {
 
         {/* Recent Discounts */}
         <div className="lg:w-96">
-          <div className="bg-white rounded-lg shadow-md p-6 border">
+          <div className="card-surface p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               Recent Discounts
             </h2>
@@ -299,7 +300,7 @@ export default function AdminDiscountsPage() {
                 {discounts.slice(0, 5).map((discount) => (
                   <div
                     key={discount._id}
-                    className="bg-gray-50 rounded-lg p-3 border"
+                    className="rounded-lg border bg-gray-50 p-3"
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-semibold text-gray-900">
@@ -322,6 +323,7 @@ export default function AdminDiscountsPage() {
             )}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

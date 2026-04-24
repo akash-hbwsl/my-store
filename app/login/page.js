@@ -31,7 +31,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-shell flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="mx-auto h-16 w-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
@@ -57,7 +57,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <div className="bg-white py-8 px-6 shadow-xl rounded-2xl border border-gray-100">
+        <div className="card-surface px-6 py-8 shadow-xl">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
@@ -88,7 +88,7 @@ export default function LoginPage() {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none relative block w-full px-10 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm transition-colors"
+                  className="input-base appearance-none relative block px-10 py-3 sm:text-sm"
                   placeholder="Enter your email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -125,7 +125,7 @@ export default function LoginPage() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="appearance-none relative block w-full px-10 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm transition-colors"
+                  className="input-base appearance-none relative block px-10 py-3 sm:text-sm"
                   placeholder="Enter your password"
                   value={form.password}
                   onChange={(e) =>
@@ -139,7 +139,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors duration-200"
+                className="btn-primary group relative w-full border border-transparent py-3 text-sm disabled:cursor-not-allowed disabled:bg-blue-400"
               >
                 {isLoading ? (
                   <div className="flex items-center">

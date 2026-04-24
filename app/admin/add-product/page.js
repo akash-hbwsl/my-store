@@ -54,9 +54,9 @@ export default function AddProduct() {
   };
 
   return (
-    <div className="flex items-center justify-center py-10 w-full bg-gray-50 min-h-[60vh]">
-      <div className="w-full max-w-xl bg-white rounded-2xl shadow-xl p-10 border border-gray-100">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-6 text-center tracking-tight">
+    <div className="page-shell flex items-center justify-center">
+      <div className="card-surface w-full max-w-xl p-10 shadow-xl">
+        <h1 className="section-title mb-6 text-center text-blue-700">
           Add Product
         </h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -69,7 +69,7 @@ export default function AddProduct() {
               placeholder="Title"
               value={form.title}
               onChange={handleChange}
-              className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 p-3 rounded-lg outline-none transition placeholder-gray-400 text-gray-900"
+              className="input-base p-3"
               required
             />
           </div>
@@ -82,7 +82,7 @@ export default function AddProduct() {
               placeholder="Description"
               value={form.description}
               onChange={handleChange}
-              className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 p-3 rounded-lg outline-none transition min-h-[80px] resize-y placeholder-gray-400 text-gray-900"
+              className="input-base min-h-[80px] resize-y p-3"
               required
             />
           </div>
@@ -96,7 +96,7 @@ export default function AddProduct() {
                 placeholder="Price"
                 value={form.price}
                 onChange={handleChange}
-                className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 p-3 rounded-lg outline-none transition placeholder-gray-400 text-gray-900"
+                className="input-base p-3"
                 type="number"
                 min="0"
                 step="0.01"
@@ -112,7 +112,7 @@ export default function AddProduct() {
                 placeholder="Category"
                 value={form.category}
                 onChange={handleChange}
-                className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 p-3 rounded-lg outline-none transition placeholder-gray-400 text-gray-900"
+                className="input-base p-3"
                 required
               />
             </div>
@@ -126,10 +126,10 @@ export default function AddProduct() {
               placeholder="Image URL"
               value={form.image}
               onChange={handleChange}
-              className="w-full border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 p-3 rounded-lg outline-none transition placeholder-gray-400 text-gray-900"
+              className="input-base p-3"
             />
           </div>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow transition-all mt-2 focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <button className="btn-primary mt-2 py-3 font-semibold">
             Add Product
           </button>
         </form>

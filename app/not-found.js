@@ -3,8 +3,8 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
-      <div className="bg-white rounded-2xl shadow-xl p-10 max-w-lg w-full text-center border border-gray-100">
+    <div className="page-shell flex flex-col items-center justify-center px-4">
+      <div className="card-surface w-full max-w-lg p-10 text-center shadow-xl">
         <ExclamationTriangleIcon className="mx-auto h-16 w-16 text-yellow-400 mb-4" />
         <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
           404 - Not Found
@@ -14,7 +14,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/products"
-          className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow transition-all"
+          className="btn-primary font-semibold"
         >
           Go to Products
         </Link>

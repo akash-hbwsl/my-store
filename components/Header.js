@@ -20,30 +20,31 @@ export default function Header() {
   const cartCount = getCartItemCount();
 
   return (
-    <header className="bg-white shadow-lg border-b border-gray-200">
-      <nav className="container mx-auto px-6 py-4 flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-        <div className="text-2xl md:text-3xl font-bold text-blue-600 mb-2 md:mb-0">
-          My Store
-        </div>
+    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
+      <nav className="page-container flex flex-col gap-3 py-3 md:flex-row md:items-center md:justify-between">
+        <Link href="/" className="leading-tight">
+          <p className="text-2xl font-bold tracking-tight text-blue-600">My Store</p>
+          <p className="text-xs text-slate-500">Modern shopping experience</p>
+        </Link>
 
-        <div className="flex items-center gap-4 flex-wrap">
+        <div className="flex flex-wrap items-center gap-2">
           <Link
             href="/"
-            className="text-gray-700 hover:text-blue-600 font-medium"
+            className="rounded-md px-2 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-blue-700"
           >
             Home
           </Link>
 
           <Link
             href="/products"
-            className="text-gray-700 hover:text-blue-600 font-medium"
+            className="rounded-md px-2 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-blue-700"
           >
             Products
           </Link>
 
           <Link
             href="/cart"
-            className="relative flex items-center gap-2 px-3 py-1 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 transition shadow-sm"
+            className="relative flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
           >
             <span className="text-xl">🛒</span>
             <span className="text-sm font-medium">Cart</span>
@@ -58,21 +59,21 @@ export default function Header() {
             <>
               <Link
                 href="/admin/add-product"
-                className="text-gray-700 hover:text-blue-600 font-medium"
+                className="rounded-md px-2 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-blue-700"
               >
                 Add Product
               </Link>
 
               <Link
                 href="/admin/products"
-                className="text-gray-700 hover:text-blue-600 font-medium"
+                className="rounded-md px-2 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-blue-700"
               >
                 Added Products
               </Link>
 
               <Link
                 href="/admin/orders"
-                className="text-gray-700 hover:text-blue-600 font-medium"
+                className="rounded-md px-2 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-blue-700"
               >
                 Orders
               </Link>
@@ -81,7 +82,7 @@ export default function Header() {
 
           <Link
             href="/recently-viewed"
-            className="relative flex items-center gap-2 px-3 py-1 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 transition shadow-sm"
+            className="relative flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
           >
             <span className="text-xl">👁️</span>
             <span className="text-sm font-medium">Recent</span>
@@ -95,17 +96,17 @@ export default function Header() {
           {!session ? (
             <Link
               href="/login"
-              className="bg-blue-600 text-white px-4 py-1 rounded"
+              className="btn-primary px-4 py-2 text-sm"
             >
               Login
             </Link>
           ) : (
             <>
-              <span className="text-gray-700 text-sm">{session.user.name}</span>
+              <span className="text-sm text-slate-700">{session.user.name}</span>
 
               <button
                 onClick={() => signOut()}
-                className="bg-red-500 text-white px-3 py-1 rounded"
+                className="rounded-lg bg-rose-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-rose-600"
               >
                 Logout
               </button>

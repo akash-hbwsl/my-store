@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRecent } from "@/context/RecentContext";
 import {
   MagnifyingGlassIcon,
   ChevronDownIcon,
@@ -10,7 +9,6 @@ import ProductCard from "./ProductCard";
 
 export default function ProductList({ products }) {
   const [search, setSearch] = useState("");
-  const { recent } = useRecent();
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const categories = ["All", ...new Set(products.map((p) => p.category))];

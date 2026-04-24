@@ -41,11 +41,10 @@ export default async function ProductDetails({ params }) {
   if (!product) {
     notFound();
   }
-  console.log(product);
 
   return (
-    <div className="py-10 w-full bg-gray-50 min-h-[60vh]">
-      <div className="max-w-3xl mx-auto px-4">
+    <div className="py-10 w-full bg-gradient-to-b from-gray-50 to-white min-h-[60vh]">
+      <div className="max-w-5xl mx-auto px-4">
         <Link
           href="/products"
           className="inline-flex items-center gap-2 mb-6 text-blue-600 hover:text-blue-800 font-medium transition"
@@ -53,20 +52,20 @@ export default async function ProductDetails({ params }) {
           <span className="text-xl">&larr;</span> Back to Products
         </Link>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className="flex-1 flex items-center justify-center">
+        <div className="bg-white rounded-3xl shadow-xl p-6 md:p-8 border border-gray-100">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+            <div className="rounded-2xl border border-gray-100 bg-gradient-to-b from-gray-50 to-white p-6 flex items-center justify-center">
               <Image
                 src={product.image}
                 width={350}
                 height={350}
                 alt={product.title}
-                className="w-full max-w-xs h-80 object-contain rounded-lg border bg-white p-4"
+                className="w-full max-w-sm h-80 object-contain rounded-xl bg-white p-4"
                 unoptimized={product.isCustom}
               />
             </div>
 
-            <div className="md:w-1/2 flex flex-col justify-center">
+            <div className="flex flex-col justify-center">
               <ProductDetailsClient product={product} />
             </div>
           </div>

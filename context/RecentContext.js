@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 const RecentContext = createContext();
 
@@ -29,12 +29,12 @@ export function RecentProvider({ children }) {
     localStorage.setItem("recentlyViewed", JSON.stringify(recent));
   }, [recent, hasLoadedRecent]);
 
-  const addRecent = (product) => {
+  const addRecent = useCallback((product) => {
     setRecent((prev) => {
       const filtered = prev.filter((p) => p._id !== product._id);
       return [product, ...filtered].slice(0, 5);
     });
-  };
+  }, []);
 
   return (
     <RecentContext.Provider value={{ recent, addRecent }}>

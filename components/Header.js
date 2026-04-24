@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRecent } from "@/context/RecentContext";
 import { useSession, signOut } from "next-auth/react";
@@ -9,6 +10,11 @@ export default function Header() {
   const { recent } = useRecent();
   const { data: session } = useSession();
   const { getCartItemCount } = useCart();
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const isAdmin = session?.user?.role === "admin";
   const cartCount = getCartItemCount();
@@ -41,7 +47,7 @@ export default function Header() {
           >
             <span className="text-xl">🛒</span>
             <span className="text-sm font-medium">Cart</span>
-            {cartCount > 0 && (
+            {isHydrated && cartCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full shadow">
                 {cartCount}
               </span>
@@ -79,7 +85,7 @@ export default function Header() {
           >
             <span className="text-xl">👁️</span>
             <span className="text-sm font-medium">Recent</span>
-            {recent.length > 0 && (
+            {isHydrated && recent.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full shadow">
                 {recent.length}
               </span>

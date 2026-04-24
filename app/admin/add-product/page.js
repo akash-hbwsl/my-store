@@ -25,7 +25,14 @@ export default function AddProduct() {
     try {
       const res = await fetch("/api/products", {
         method: "POST",
-        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...form,
+          price: Number(form.price),
+          discount: 0,
+        }),
       });
       const data = await res.json();
 

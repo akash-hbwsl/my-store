@@ -1,33 +1,39 @@
-import { readFile, writeFile } from "fs/promises";
-import path from "path";
+import clientPromise from "@/lib/mongodb";
 
-const filePath = path.join(process.cwd(), "data", "products.json");
-
-export async function POST(req) {
+export async function GET() {
   try {
-    const body = await req.json();
+    const client = await clientPromise;
+    const db = client.db();
 
-    const fileData = await readFile(filePath, "utf-8");
-    const products = JSON.parse(fileData);
+    const products = await db.collection("products").find({}).toArray();
 
-    const newProduct = {
-      id: Date.now().toString(),
-      ...body,
-      isCustom: true,
-    };
-
-    products.push(newProduct);
-
-    await writeFile(filePath, JSON.stringify(products, null, 2));
-    return Response.json({ success: true, product: newProduct });
+    return Response.json(products);
   } catch (error) {
     return Response.json({ success: false, error: error.message });
   }
 }
 
-export async function GET() {
-  const fileData = await readFile(filePath, "utf-8");
-  const products = JSON.parse(fileData);
+export async function POST(req) {
+  try {
+    const body = await req.json();
 
-  return Response.json(products);
+    const client = await clientPromise;
+    const db = client.db();
+
+    const newProduct = {
+      ...body,
+      discount: Number(body.discount) || 0,
+      isCustom: true,
+      createdAt: new Date(),
+    };
+
+    const result = await db.collection("products").insertOne(newProduct);
+
+    return Response.json({
+      success: true,
+      product: { ...newProduct, _id: result.insertedId },
+    });
+  } catch (error) {
+    return Response.json({ success: false, error: error.message });
+  }
 }

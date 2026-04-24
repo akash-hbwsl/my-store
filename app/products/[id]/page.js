@@ -5,68 +5,44 @@ import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  let product = null;
-  try {
-    const res = await fetch(`https://fakestoreapi.com/products/${id}`);
-    const data = await res.json();
-    if (data && data.id) {
-      product = data;
-    }
-  } catch (err) {}
 
-  if (!product) {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`);
-    const data = await res.json();
-    if (data && data.id) {
-      product = data;
-    }
-  }
+  const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+    cache: "no-store",
+  });
 
-  if (!product) {
-    notFound();
-  }
+  const product = await res.json();
+
+  if (!product) return {};
+
   return {
     title: product.title,
     description: product.description,
   };
 }
 
-export async function generateStaticParams() {
-  const res = await fetch("https://fakestoreapi.com/products");
-  const apiProducts = await res.json();
+// export async function generateStaticParams() {
+//   const res = await fetch("http://localhost:3000/api/products");
+//   const products = await res.json();
 
-  const localRes = await fetch("http://localhost:3000/api/products");
-  const localProducts = await localRes.json();
-
-  const products = [...apiProducts, ...localProducts];
-
-  return products.map((product) => ({
-    id: product.id.toString(),
-  }));
-}
+//   return products.map((product) => ({
+//     id: product._id.toString(),
+//   }));
+// }
 
 export default async function ProductDetails({ params }) {
   const { id } = await params;
-  let product = null;
-  try {
-    const res = await fetch(`https://fakestoreapi.com/products/${id}`);
-    const data = await res.json();
-    if (data && data.id) {
-      product = data;
-    }
-  } catch (err) {}
 
-  if (!product) {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`);
-    const data = await res.json();
-    if (data && data.id) {
-      product = data;
-    }
-  }
+  const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+    cache: "no-store",
+  });
+
+  const product = await res.json();
 
   if (!product) {
     notFound();
   }
+  console.log(product);
+
   return (
     <div className="py-10 w-full bg-gray-50 min-h-[60vh]">
       <div className="max-w-3xl mx-auto px-4">
@@ -76,6 +52,7 @@ export default async function ProductDetails({ params }) {
         >
           <span className="text-xl">&larr;</span> Back to Products
         </Link>
+
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
           <div className="flex flex-col md:flex-row gap-8">
             <div className="flex-1 flex items-center justify-center">

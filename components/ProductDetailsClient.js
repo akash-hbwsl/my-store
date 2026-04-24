@@ -12,7 +12,7 @@ export default function ProductDetailsClient({ product }) {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-6">{product.title}</h1>
+      <h1 className="text-3xl text-black font-bold mb-6">{product.title}</h1>
 
       <p className="text-green-600 text-xl mb-4">${product.price}</p>
 

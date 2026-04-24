@@ -5,15 +5,12 @@ export const metadata = {
 };
 
 export default async function ProductPage() {
-  const apiRes = await fetch("https://fakestoreapi.com/products", {
+  const res = await fetch("http://localhost:3000/api/products", {
     cache: "no-store",
   });
-  const apiProducts = await apiRes.json();
-  const localRes = await fetch("http://localhost:3000/api/products", {
-    cache: "no-store",
-  });
-  const localProducts = await localRes.json();
-  const products = [...apiProducts, ...localProducts];
+
+  const products = await res.json();
+
   return (
     <div className="py-10 w-full bg-gray-50 min-h-[60vh]">
       <div className="max-w-7xl mx-auto px-4">

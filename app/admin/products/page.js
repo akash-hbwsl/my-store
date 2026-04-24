@@ -5,7 +5,7 @@ export const metadata = {
 };
 
 export default async function ProductPage() {
-  const res = await fetch("http://localhost:3000/api/products", {
+  const res = await fetch("http://localhost:3000/api/admin/products", {
     cache: "no-store",
   });
 
@@ -18,7 +18,7 @@ export default async function ProductPage() {
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </div>

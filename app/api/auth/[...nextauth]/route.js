@@ -1,55 +1,74 @@
+import bcrypt from "bcrypt";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { connectToDatabase } from "@/lib/mongodb";
 
-// ✅ export this
 export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
-      credentials: {},
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
       async authorize(credentials) {
-        const users = [
-          {
-            email: "admin@test.com",
-            password: "admin123",
-            role: "admin",
-          },
-          {
-            email: "user@test.com",
-            password: "user123",
-            role: "user",
-          },
-        ];
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
-        const user = users.find(
-          (u) =>
-            u.email === credentials.email &&
-            u.password === credentials.password,
+        const { db } = await connectToDatabase();
+        const user = await db
+          .collection("users")
+          .findOne({ email: credentials.email.toLowerCase() });
+
+        if (!user || !user.password) {
+          return null;
+        }
+
+        const isValidPassword = await bcrypt.compare(
+          credentials.password,
+          user.password,
         );
 
-        if (!user) return null;
+        if (!isValidPassword) {
+          return null;
+        }
 
         return {
-          id: "1",
-          name: user.role === "admin" ? "Admin" : "User",
+          id: user._id.toString(),
+          name: user.name || user.email,
           email: user.email,
-          role: user.role,
+          role: user.role || "user",
         };
       },
     }),
   ],
 
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt",
+  },
 
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = user.role;
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.role = user.role;
+      }
       return token;
     },
     async session({ session, token }) {
-      session.user.role = token.role;
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.email = token.email;
+        session.user.role = token.role;
+      }
       return session;
     },
+  },
+
+  pages: {
+    signIn: "/login",
   },
 
   secret: process.env.NEXTAUTH_SECRET,

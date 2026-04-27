@@ -2,29 +2,41 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/products";
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
-    const isAdmin = form.email === "admin@test.com";
+    setError("");
 
     try {
-      await signIn("credentials", {
+      const result = await signIn("credentials", {
         ...form,
-        redirect: true,
-        callbackUrl: isAdmin ? "/admin" : "/products",
+        redirect: false,
+        callbackUrl,
       });
+
+      if (!result || result.error) {
+        setError("Invalid email or password");
+        return;
+      }
+
+      router.push(result.url || callbackUrl);
     } catch (error) {
       console.error("Login error:", error);
+      setError("Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -153,6 +165,12 @@ export default function LoginPage() {
             </div>
           </form>
 
+          {error ? (
+            <div className="mt-4 rounded-md bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+              {error}
+            </div>
+          ) : null}
+
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -176,13 +194,23 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="text-center">
-          <Link
-            href="/"
-            className="text-blue-600 hover:text-blue-500 font-medium transition-colors"
-          >
-            ← Back to Home
-          </Link>
+        <div className="text-center space-y-3">
+          <div>
+            <Link
+              href="/signup"
+              className="text-blue-600 hover:text-blue-500 font-medium transition-colors"
+            >
+              Create an account
+            </Link>
+          </div>
+          <div>
+            <Link
+              href="/"
+              className="text-blue-600 hover:text-blue-500 font-medium transition-colors"
+            >
+              ← Back to Home
+            </Link>
+          </div>
         </div>
       </div>
     </div>

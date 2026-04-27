@@ -15,11 +15,16 @@ export async function GET(request) {
     const client = await clientPromise;
     const db = client.db("my-store");
 
-    const discounts = await db.collection("discounts").find({}).toArray();
+    const discountedProducts = await db
+      .collection("products")
+      .find({ discount: { $gt: 0 } })
+      .project({ title: 1, category: 1, discount: 1, updatedAt: 1 })
+      .sort({ updatedAt: -1 })
+      .toArray();
 
     return NextResponse.json({
       success: true,
-      discounts,
+      discountedProducts,
     });
   } catch (error) {
     console.error("Discounts fetch error:", error);
@@ -41,66 +46,55 @@ export async function POST(request) {
     const { discountType, discountValue, categories, applicableProducts } =
       await request.json();
 
-    if (!discountType || !discountValue) {
+    const parsedDiscount = Number(discountValue);
+    if (
+      !discountType ||
+      !Number.isFinite(parsedDiscount) ||
+      parsedDiscount < 0 ||
+      parsedDiscount > 100
+    ) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Invalid discount payload" },
         { status: 400 },
       );
     }
 
     const client = await clientPromise;
     const db = client.db("my-store");
+    let filter = {};
 
-    // If applying discount to all products or categories, update products collection
     if (discountType === "all") {
-      // Update all products
-      await db
-        .collection("products")
-        .updateMany({}, { $set: { discount: discountValue } });
-    } else if (
-      discountType === "category" &&
-      categories &&
-      categories.length > 0
-    ) {
-      // Update products in specific categories
-      await db
-        .collection("products")
-        .updateMany(
-          { category: { $in: categories } },
-          { $set: { discount: discountValue } },
+      filter = {};
+    } else if (discountType === "category") {
+      if (!Array.isArray(categories) || categories.length === 0) {
+        return NextResponse.json(
+          { error: "Select at least one category" },
+          { status: 400 },
         );
-    } else if (
-      discountType === "specific" &&
-      applicableProducts &&
-      applicableProducts.length > 0
-    ) {
-      // Update specific products
+      }
+      filter = { category: { $in: categories } };
+    } else if (discountType === "specific") {
+      if (!Array.isArray(applicableProducts) || applicableProducts.length === 0) {
+        return NextResponse.json(
+          { error: "Select at least one product" },
+          { status: 400 },
+        );
+      }
       const objectIds = applicableProducts.map((id) => new ObjectId(id));
-      await db
-        .collection("products")
-        .updateMany(
-          { _id: { $in: objectIds } },
-          { $set: { discount: discountValue } },
-        );
+      filter = { _id: { $in: objectIds } };
+    } else {
+      return NextResponse.json({ error: "Invalid discount type" }, { status: 400 });
     }
 
-    // Save discount configuration to discounts collection
-    const discount = {
-      type: discountType,
-      value: discountValue,
-      categories: categories || [],
-      applicableProducts: applicableProducts || [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      active: true,
-    };
-
-    const result = await db.collection("discounts").insertOne(discount);
+    const result = await db.collection("products").updateMany(filter, {
+      $set: { discount: parsedDiscount, updatedAt: new Date() },
+    });
 
     return NextResponse.json({
       success: true,
-      discount: { _id: result.insertedId, ...discount },
-      message: "Discount applied successfully",
+      updatedCount: result.modifiedCount,
+      matchedCount: result.matchedCount,
+      message: "Discount applied directly on product items",
     });
   } catch (error) {
     console.error("Discount creation error:", error);

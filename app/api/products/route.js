@@ -3,7 +3,7 @@ import clientPromise from "@/lib/mongodb";
 export async function GET() {
   try {
     const client = await clientPromise;
-    const db = client.db();
+    const db = client.db("my-store");
 
     const products = await db.collection("products").find({}).toArray();
 
@@ -18,7 +18,7 @@ export async function POST(req) {
     const body = await req.json();
 
     const client = await clientPromise;
-    const db = client.db();
+    const db = client.db("my-store");
 
     const newProduct = {
       ...body,

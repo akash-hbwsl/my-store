@@ -14,8 +14,6 @@ export default function AdminDiscountsPage() {
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [discounts, setDiscounts] = useState([]);
-  const [loadingDiscounts, setLoadingDiscounts] = useState(true);
 
   const categories = [
     "Electronics",
@@ -34,7 +32,6 @@ export default function AdminDiscountsPage() {
     }
 
     fetchProducts();
-    fetchDiscounts();
   }, [session, status, router]);
 
   const fetchProducts = async () => {
@@ -46,20 +43,6 @@ export default function AdminDiscountsPage() {
       }
     } catch (error) {
       console.error("Failed to fetch products:", error);
-    }
-  };
-
-  const fetchDiscounts = async () => {
-    try {
-      const response = await fetch("/api/admin/discounts");
-      if (response.ok) {
-        const data = await response.json();
-        setDiscounts(data.discounts);
-      }
-    } catch (error) {
-      console.error("Failed to fetch discounts:", error);
-    } finally {
-      setLoadingDiscounts(false);
     }
   };
 
@@ -110,7 +93,14 @@ export default function AdminDiscountsPage() {
       }
 
       const result = await response.json();
-      toast.success("Discount applied successfully!");
+      if (!result.matchedCount) {
+        toast.error("No products matched the selected filter.");
+        setIsLoading(false);
+        return;
+      }
+      toast.success(
+        `Discount applied to ${result.updatedCount ?? result.matchedCount} product(s).`,
+      );
 
       // Reset form
       setDiscountType("all");
@@ -118,8 +108,8 @@ export default function AdminDiscountsPage() {
       setSelectedCategories([]);
       setSelectedProducts([]);
 
-      // Refresh discounts list
-      fetchDiscounts();
+      // Refresh products so latest per-item discount values are shown
+      fetchProducts();
     } catch (error) {
       console.error("Discount submission error:", error);
       toast.error("Failed to apply discount. Please try again.");
@@ -282,41 +272,34 @@ export default function AdminDiscountsPage() {
           </div>
         </div>
 
-        {/* Recent Discounts */}
+        {/* Current Product Discounts */}
         <div className="lg:w-96">
           <div className="card-surface p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
-              Recent Discounts
+              Current Product Discounts
             </h2>
 
-            {loadingDiscounts ? (
-              <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-              </div>
-            ) : discounts.length === 0 ? (
-              <p className="text-gray-600 text-sm">No discounts applied yet</p>
+            {products.filter((product) => Number(product.discount) > 0).length === 0 ? (
+              <p className="text-gray-600 text-sm">No product discounts applied yet</p>
             ) : (
               <div className="space-y-3">
-                {discounts.slice(0, 5).map((discount) => (
+                {products
+                  .filter((product) => Number(product.discount) > 0)
+                  .slice(0, 8)
+                  .map((product) => (
                   <div
-                    key={discount._id}
+                    key={product._id}
                     className="rounded-lg border bg-gray-50 p-3"
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-semibold text-gray-900">
-                        {discount.value}% OFF
+                        {product.discount}% OFF
                       </span>
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                        {discount.type === "all"
-                          ? "All Products"
-                          : discount.type === "category"
-                            ? "Categories"
-                            : "Specific"}
+                      <span className="text-xs rounded bg-blue-100 px-2 py-1 text-blue-800">
+                        {product.category || "Uncategorized"}
                       </span>
                     </div>
-                    <p className="text-xs text-gray-600">
-                      {new Date(discount.createdAt).toLocaleDateString()}
-                    </p>
+                    <p className="text-xs text-gray-600 line-clamp-1">{product.title}</p>
                   </div>
                 ))}
               </div>

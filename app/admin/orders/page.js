@@ -110,6 +110,11 @@ export default function AdminOrdersPage() {
         throw new Error("Failed to save discount");
       }
 
+      const result = await res.json();
+      if (!result.matchedCount) {
+        throw new Error("No products matched selected category");
+      }
+
       toast.success("Discount saved and applied to products.");
       setDiscountPercentage("");
       setSelectedDiscountCategory("all");
